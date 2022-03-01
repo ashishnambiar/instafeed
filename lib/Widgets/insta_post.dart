@@ -15,52 +15,48 @@ class InstaPost extends StatelessWidget {
 
     return Column(
       children: [
-        ConstrainedBox(
-          constraints: BoxConstraints.loose(
-              Size(double.infinity, MediaQuery.of(context).size.height * .7)),
-          child: Center(
-            child: AspectRatio(
-              aspectRatio: 10 / 12,
-              child: PageView.builder(
-                controller: _controller,
-                itemCount: postData.images!.length,
-                onPageChanged: (p) => page.value = p,
-                itemBuilder: (BuildContext context, int i) {
-                  return Image.network(
-                    postData.images![i],
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                                '${((loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!) * 100).ceil()} %'),
-                            LinearProgressIndicator(
-                              value: (loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.error,
-                              color: Colors.red,
-                            ),
-                            Text('There was an error loading this image'),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+        Center(
+          child: AspectRatio(
+            aspectRatio: 10 / 12,
+            child: PageView.builder(
+              controller: _controller,
+              itemCount: postData.images!.length,
+              onPageChanged: (p) => page.value = p,
+              itemBuilder: (BuildContext context, int i) {
+                return Image.network(
+                  postData.images![i],
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                              '${((loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!) * 100).ceil()} %'),
+                          LinearProgressIndicator(
+                            value: (loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                          Text('There was an error loading this image'),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),
